@@ -1,1 +1,43 @@
-{"rf":{"min_hz":851000000,"max_hz":869000000,"sample_rate":2048000,"audio_rate":16000,"gain_db":40,"ppm":0},"decoder":{"mode":"auto","op25_rx_path":"op25/gr-op25_repeater/apps/rx.py","op25_python":"python3","dmr_command":["dsdcc","-i","{input}","-o","{output}"]},"frequencies":[{"hz":856112500,"role":"control","mode":"p25"},{"hz":857937500,"role":"control","mode":"p25"},{"hz":854337500,"role":"voice","mode":"auto"}],"talkgroups":{"1001":{"location":[36.20,-95.95],"tag":"Dispatch - North"},"1002":{"location":[36.10,-96.00],"tag":"Dispatch - South"},"1003":{"location":[36.15,-95.98],"tag":"Traffic Enforcement"}},"virtual_dongles":{"enabled":true,"seed":918,"seconds_per_block":1.0},"whisper":{"model":"tiny","device":"cpu","compute_type":"int8"}}
+{
+  "rf": {
+    "min_hz": 851000000,
+    "max_hz": 869000000,
+    "sample_rate": 2048000,
+    "audio_rate": 16000,
+    "gain_db": 40,
+    "ppm": 0
+  },
+  "decoder": {
+    "mode": "auto",
+    "op25_rx_path": "op25/gr-op25_repeater/apps/rx.py",
+    "op25_python": "python3",
+    "dmr_command": ["dsdcc", "-i", "{input}", "-o", "{output}"],
+    "metadata_hold_seconds": 4.0
+  },
+  "frequencies": [
+    {"hz": 856112500, "role": "control", "mode": "p25", "label": "Tulsa seed control 1"},
+    {"hz": 857937500, "role": "control", "mode": "p25", "label": "Tulsa seed control 2"},
+    {"hz": 854337500, "role": "voice", "mode": "analog", "label": "Tulsa seed voice"}
+  ],
+  "talkgroups": {
+    "1001": {"location": [36.20, -95.95], "tag": "Dispatch - North"},
+    "1002": {"location": [36.10, -96.00], "tag": "Dispatch - South"},
+    "1003": {"location": [36.15, -95.98], "tag": "Traffic Enforcement"},
+    "1004": {"location": [36.14, -95.97], "tag": "Tactical Ops"},
+    "1005": {"location": [36.13, -95.96], "tag": "Training"},
+    "1006": {"location": [36.12, -95.95], "tag": "Detectives"},
+    "1007": {"location": [36.11, -95.94], "tag": "Vice/Narcotics"},
+    "1008": {"location": [36.10, -95.93], "tag": "Community Affairs"},
+    "1009": {"location": [36.09, -95.92], "tag": "EMS Coordination"}
+  },
+  "virtual_dongles": {
+    "enabled": true,
+    "seed": 918,
+    "seconds_per_block": 1.0
+  },
+  "whisper": {
+    "model": "tiny",
+    "device": "cpu",
+    "compute_type": "int8"
+  }
+}
