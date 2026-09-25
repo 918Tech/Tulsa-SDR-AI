@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tulsa SDR AI</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+<style>
+html,body,#map{height:100%;margin:0}#panel{position:fixed;z-index:9999;right:12px;top:12px;width:min(430px,calc(100vw - 24px));max-height:82vh;overflow:auto;background:#0b0f14eF;color:#e8f0f7;padding:14px;border-radius:10px;font:13px system-ui}.event{padding:8px 0;border-top:1px solid #34404c}.muted{opacity:.7}
+</style>
+</head>
+<body>
+<div id="map"></div><div id="panel"><h3>Tulsa SDR AI</h3><div id="devices"></div><div id="events"></div></div>
+<script>
+const map=L.map("map").setView([36.15,-95.99],11);
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:"OpenStreetMap"}).addTo(map);
+const socket=io(), markers={};
+function render(s){
+ document.getElementById("devices").innerHTML="<b>Receivers</b><p>"+(s.devices||[]).map(d=>d.serial+" · "+(d.frequency/1e6).toFixed(4)+" MHz · "+d.kind+" · "+d.configured_mode).join("<br>")+"</p>";
+ for(const [tg,d] of Object.entries(s.markers||{})){
+  if(!markers[tg])markers[tg]=L.marker(d.location).addTo(map);
+  markers[tg].setLatLng(d.location).bindPopup("TG "+tg+" · "+(d.tag||"")+"<br><span class=muted>Configured service-area marker; not caller GPS.</span>");
+ }
+ document.getElementById("events").innerHTML="<b>Live events</b>"+(s.events||[]).slice().reverse().slice(0,50).map(e=>"<div class=event><b>"+(e.talkgroup??"—")+"</b> "+(e.tag||"")+" · "+(e.mode||"")+"<br>"+(e.text||"")+"</div>").join("");
+}
+socket.on("state",render);
+fetch("/api/state").then(r=>r.json()).then(render);
+</script>
+</body></html>
